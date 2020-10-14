@@ -5,3 +5,4 @@
 **/*.pyc
 **/*.egg
 **/*.whl
+**/*.egg-info
