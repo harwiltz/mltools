@@ -11,7 +11,7 @@ class CometExperimentLogger(ExperimentLogger):
             self.comet = OfflineExperiment(project_name=exp_name, **kwargs)
 
     def log_metric(self, tag, value, step, **kwargs):
-        self.comet.log_metric(tag, value, **kwargs)
+        self.comet.log_metric(tag, value, step=step, **kwargs)
 
     def log_image(self, tag, img, step, **kwargs):
         self.comet.log_image(img, name=tag, step=step, **kwargs)
@@ -23,7 +23,7 @@ class CometExperimentLogger(ExperimentLogger):
         self.comet.log_text(text, **kwargs)
 
     def log_parameters(self, params, **kwargs):
-        self.comet.log_parameters(self, params, **kwargs)
+        self.comet.log_parameters(params, **kwargs)
 
     def start_epoch(self, **kwargs):
         super(CometExperimentLogger, self).start_epoch()
