@@ -6,9 +6,9 @@ class CometExperimentLogger(ExperimentLogger):
     def __init__(self, exp_name, online=True, **kwargs):
         super(CometExperimentLogger, self).__init__(exp_name, **kwargs)
         if online:
-            self.comet = Experiment(**kwargs)
+            self.comet = Experiment(project_name=exp_name, **kwargs)
         else:
-            self.comet = OfflineExperiment(**kwargs)
+            self.comet = OfflineExperiment(project_name=exp_name, **kwargs)
 
     def log_metric(self, tag, value, step, **kwargs):
         self.comet.log_metric(tag, value, **kwargs)
@@ -18,6 +18,9 @@ class CometExperimentLogger(ExperimentLogger):
 
     def log_plt(self, tag, plt, step, **kwargs):
         self.comet.log_figure(figure=plt, figure_name=tag, step=step, **kwargs)
+
+    def log_text(self, tag, text, **kwargs):
+        self.comet.log_text(text, **kwargs)
 
     def start_epoch(self, **kwargs):
         super(CometExperimentLogger, self).start_epoch()

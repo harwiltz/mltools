@@ -19,6 +19,9 @@ class ExperimentLogger(object):
     def log_plt(self, tag, plt, step, **kwargs):
         raise NotImplementedError
 
+    def log_text(self, tag, text, **kwargs):
+        raise NotImplementedError
+
     def start_epoch(self, **kwargs):
         pass
 
@@ -55,6 +58,10 @@ class CLIExperimentLogger(ExperimentLogger):
             warn_message_suf = f"skipping log of {tag} ({step})"
             print(f"{warn_message_pre} -- {warn_message_suf}")
             self._has_warned_plt = True
+
+    def log_text(self, tag, text, **kwargs):
+        tag = tag[:min(6, len(tag))]
+        print("[{:>6}] {}".format(tag, text))
 
     def start_epoch(self, **kwargs):
         super(CLIExperimentLogger, self).start_epoch()
