@@ -22,6 +22,9 @@ class ExperimentLogger(object):
     def log_text(self, tag, text, **kwargs):
         raise NotImplementedError
 
+    def log_parameters(self, params, **kwargs):
+        raise NotImplementedError
+
     def start_epoch(self, **kwargs):
         pass
 
@@ -62,6 +65,11 @@ class CLIExperimentLogger(ExperimentLogger):
     def log_text(self, tag, text, **kwargs):
         tag = tag[:min(6, len(tag))]
         print("[{:>6}] {}".format(tag, text))
+
+    def log_parameters(self, params, **kwargs):
+        print("<PARAMS>")
+        print(params)
+        print("</PARAMS>")
 
     def start_epoch(self, **kwargs):
         super(CLIExperimentLogger, self).start_epoch()

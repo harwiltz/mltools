@@ -22,6 +22,9 @@ class CometExperimentLogger(ExperimentLogger):
     def log_text(self, tag, text, **kwargs):
         self.comet.log_text(text, **kwargs)
 
+    def log_parameters(self, params, **kwargs):
+        self.comet.log_parameters(self, params, **kwargs)
+
     def start_epoch(self, **kwargs):
         super(CometExperimentLogger, self).start_epoch()
 
