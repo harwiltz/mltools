@@ -1,5 +1,7 @@
 import functools
 
+from typing import Mapping
+
 def flatten_hparams(hparams: dict, base_key: str='') -> dict:
     """
     Flattens nested dicts for easier viewing
@@ -21,7 +23,7 @@ def flatten_hparams(hparams: dict, base_key: str='') -> dict:
     def parse_object(d: dict, key: str, base_key: str) -> dict:
         if len(base_key) > 0 :
             base_key = base_key + '.'
-        if not isinstance(d[key], dict):
+        if not isinstance(d[key], Mapping):
             return {f"{base_key}{key}": d[key]}
         return flatten_hparams(d[key], f"{base_key}{key}")
 
