@@ -6,3 +6,4 @@
 **/*.egg
 **/*.whl
 **/*.egg-info
+docs
