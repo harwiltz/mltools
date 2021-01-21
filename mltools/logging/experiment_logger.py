@@ -42,7 +42,7 @@ class CLIExperimentLogger(ExperimentLogger):
         print(f"Instantiated logger for experiment \"{exp_name}\"")
 
     def log_metric(self, tag, value, step, **kwargs):
-        print("[METRIC] {:>16} ({:>5}): {:>16.11f}".format(tag, step, value))
+        print("[METRIC] {:>32} ({:>5}): {:>16.11f}".format(tag, step, value))
 
     def log_image(self, tag, img, step, **kwargs):
         if self._has_warned_img:
