@@ -1,3 +1,5 @@
+Id = lambda x: x
+
 def cmp(f, g):
     return lambda x: f(g(x))
 
