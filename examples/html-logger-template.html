@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <h4>Epoch: {{ epoch }}</h4>
+
+    <h2>Metrics</h2>
+    <ul id="metrics">
+    {% for tag in data.metrics_rendered.keys() %}
+    <li>
+      <div>
+	<span>{{ tag }}</span>
+	<img src="{{ data.metrics_rendered[tag] }}"></img>
+      </div>
+    </li>
+    {% endfor %}
+    </ul>
+
+    <h2>Images</h2>
+    <ul id="images">
+    {% for tag in data.images.keys() %}
+    <li>
+      <div id="img_{{ tag }}">
+	<span>Step: {{ data.images[tag][1] }}</span>
+	<img src="{{ data.images[tag][0] }}"></img>
+      </div>
+    </li>
+    {% endfor %}
+    </ul>
+
+    <h2>Plots</h2>
+    <ul id="plots">
+    {% for tag in data.plots.keys() %}
+    <li>
+      <div id="img_{{ tag }}">
+	<span>Step: {{ data.plots[tag][1] }}</span>
+	<img src="{{ data.plots[tag][0] }}"></img>
+      </div>
+    </li>
+    {% endfor %}
+    </ul>
+
+    <h2>Text</h2>
+    <ul id="text">
+      {% for tag in data.text.keys() %}
+      <li>
+	<ul class="log" id="log_{{ tag }}">
+	  {% for log in data.text[tag] %}
+	  <li class="log_item">log</li>
+	  {% endfor %}
+	</ul>
+      </li>
+      {% endfor %}
+    </ul>
+      
+  </body>
+</html>
