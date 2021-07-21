@@ -1,7 +1,8 @@
 import jax
 import jax.numpy as jnp
+import jax.scipy.stats.norm as norm
 
-from mltools.distribution import Distribution
+from mltools.distribution import Distribution, Probability
 from typing import Any, List, Optional, Union
 
 class Normal(Distribution):
@@ -12,6 +13,9 @@ class Normal(Distribution):
 
     def sample(self, rng: jax.random.PRNGKey) -> float:
         return self.loc + self.scale * jax.random.normal(rng)
+
+    def pdf(self, x: float) -> Probability:
+        return norm.pdf(x, loc=self.loc, scale=self.scale)
 
     def instantiate(params: str) -> Distribution:
         tokens = params.split()
@@ -42,6 +46,10 @@ class MixedNormal(Distribution):
         rng, sub = jax.random.split(rng)
         i = jax.random.choice(rng, self.n, p=self.weights)
         return self.dists[i].sample(sub)
+
+    def pdf(self, x: float) -> Probability:
+        densities = jnp.array([p.pdf(x) for p in self.dists])
+        return densities.dot(self.weights)
 
     def instantiate(params: str) -> Distribution:
         args = params.split(",")

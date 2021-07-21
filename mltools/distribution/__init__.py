@@ -1,4 +1,4 @@
-from .base import Distribution
+from .base import Distribution, Probability
 from .normal import (
     Normal,
     MixedNormal
