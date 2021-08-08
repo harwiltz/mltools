@@ -17,6 +17,9 @@ class HTMLExperimentLogger(ExperimentLogger):
                  root_path=".htmllogs",
                  template_path="./templates",
                  template_name="index.html",
+                 metric_smoothing=0.7,
+                 metric_figsize=(4, 3),
+                 plt_style="seaborn",
                  **kwargs):
         super(HTMLExperimentLogger, self).__init__(exp_name, **kwargs)
         self.data = {
@@ -27,6 +30,12 @@ class HTMLExperimentLogger(ExperimentLogger):
             "text": {},
             "parameters": {},
         }
+
+        self.metric_smoothing = metric_smoothing
+        self.metric_figsize = metric_figsize
+        self.plt_style = plt_style
+
+        plt.style.use(plt_style)
 
         self.rootdir = os.path.join(root_path, self.exp_name)
         os.makedirs(self.rootdir, exist_ok=True)
@@ -45,13 +54,17 @@ class HTMLExperimentLogger(ExperimentLogger):
 
     def log_metric(self, tag, value, step, **kwargs):
         if tag not in self.data['metrics'].keys():
-            self.data['metrics'][tag] = []
-        self.data['metrics'][tag].append(value)
+            self.data['metrics'][tag] = [value]
+        else:
+            prev = self.data['metrics'][tag][-1]
+            v = (value - prev) * (1 - self.metric_smoothing) + prev
+            self.data['metrics'][tag].append(v)
         metrics = self.data['metrics'][tag]
+        fig = plt.figure(figsize=self.metric_figsize)
         plt.plot(metrics)
         fname = self._plot_fname(tag)
         plt.savefig(fname)
-        plt.clf()
+        plt.close(fig)
         self.data['metrics_rendered'][tag] = fname
         self.build_page()
 
@@ -77,4 +90,4 @@ class HTMLExperimentLogger(ExperimentLogger):
     def _plot_fname(self, tag):
         h = str(hash(tag)).encode()
         fname = hashlib.md5(h).hexdigest()
-        return f"{os.path.join(self.rootdir, fname)}.png"
+        return os.path.abspath(f"{os.path.join(self.rootdir, fname)}.png")
