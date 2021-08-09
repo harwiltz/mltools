@@ -42,7 +42,7 @@ class HTMLExperimentLogger(ExperimentLogger):
         self.filename = os.path.join(self.rootdir, HTMLExperimentLogger.FILENAME)
 
         self._env = Environment(
-            loader=FileSystemLoader(template_path),
+            loader=FileSystemLoader(os.path.abspath(template_path)),
             autoescape=select_autoescape(['html'])
         )
 
