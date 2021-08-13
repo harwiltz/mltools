@@ -3,12 +3,12 @@ from comet_ml import Experiment, OfflineExperiment
 from mltools.logging import ExperimentLogger
 
 class CometExperimentLogger(ExperimentLogger):
-    def __init__(self, exp_name, online=True, **kwargs):
+    def __init__(self, exp_name, online=True, offline_directory=None, **kwargs):
         super(CometExperimentLogger, self).__init__(exp_name, **kwargs)
         if online:
             self.comet = Experiment(project_name=exp_name, **kwargs)
         else:
-            self.comet = OfflineExperiment(project_name=exp_name, **kwargs)
+            self.comet = OfflineExperiment(project_name=exp_name, offline_directory=offline_directory, **kwargs)
 
     def log_metric(self, tag, value, step, **kwargs):
         self.comet.log_metric(tag, value, step=step, **kwargs)
