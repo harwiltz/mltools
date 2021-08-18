@@ -1,7 +1,8 @@
 class ExperimentLogger(object):
-    def __init__(self, exp_name, **kwargs):
+    def __init__(self, exp_name, tags=[], **kwargs):
         self.exp_name = exp_name
         self.epoch = 0
+        self.tags = tags
 
     def instantiate(logger_type, exp_name, **kwargs):
         logger_type = logger_type.lower()
