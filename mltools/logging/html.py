@@ -1,5 +1,6 @@
 import hashlib
 import jinja2
+import logging
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -48,7 +49,14 @@ class HTMLExperimentLogger(ExperimentLogger):
 
         self._template = self._env.get_template(template_name)
 
+        self._first_write = True
+
     def build_page(self):
+        if self._first_write:
+            (logging
+             .getLogger("HTMLExperimentLogger")
+             .info(f"Displaying logs at file://{os.path.abspath(self.filename)}"))
+            self._first_write = False
         with open(self.filename, 'w') as f:
             f.write(self._template.render(title=self.exp_name, epoch=self.epoch, data=self.data))
 
