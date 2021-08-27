@@ -73,6 +73,7 @@ class HTMLExperimentLogger(ExperimentLogger):
         fname = self._plot_fname(tag)
         plt.savefig(fname)
         plt.close(fig)
+        del(fig)
         self.data['metrics_rendered'][tag] = fname
         self.build_page()
 
